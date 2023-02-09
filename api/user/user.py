@@ -54,7 +54,7 @@ class UserManagement(Resource):
         Body = request.get_json()
         #이름 비밀번호 닉네임
         id = Body["id"]
-        pw = Body["pw"]
+        pw = Body["password"]
         nickname = Body["nickname"]
         # POST method 구현 부분
         database  = Database()
@@ -92,7 +92,7 @@ class UserManagement(Resource):
         Body = request.get_json()
         #이름 비밀번호 닉네임
         id = Body["id"]
-        pw = Body["pw"]
+        pw = Body["password"]
         nickname = Body["nickname"]
         # POST method 구현 부분
         database  = Database()
@@ -146,7 +146,7 @@ class UserManagement(Resource):
         Body = request.get_json()
         #이름 비밀번호 닉네임
         id = Body["id"]
-        pw = Body["pw"]
+        pw = Body["password"]
         nickname = Body["nickname"]
         # POST method 구현 부분
         database  = Database()
