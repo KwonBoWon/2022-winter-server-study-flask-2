@@ -9,8 +9,45 @@ class UserManagement(Resource):
     
     def get(self):
         # GET method 구현 부분
-
-        return {}
+        #request.args.get(“id”)
+        getId = request.args.get('id')
+        getPw = request.args.get('password')
+        
+        # POST method 구현 부분
+        database  = Database()
+        """
+        SELECT 필드이름
+        FROM 테이블이름
+        [WHERE 조건]"""
+        #데이터 확인
+        #select EXISTS (select id from 테이블이름 where 컬럼=찾는 값 limit 1) as success;
+        isId = database.execute_one("SELECT EXISTS(SELECT * FROM user WHERE id = '{}')as success".format(getId) )
+        boolId = isId['success']
+        
+        isPw = database.execute_one("SELECT EXISTS(SELECT * FROM user WHERE pw = '{}')as success".format(getPw) )
+        boolPw = isPw['success']
+        
+        findData = database.execute_one("SELECT * FROM user WHERE id = '{}'".format(getId) )
+        nickname = findData['nickname']
+        
+        if(boolId and boolPw):
+            database.commit()
+            database.close()
+            return {
+                "nickname" : nickname
+            },200
+        elif(1-boolId):
+            database.commit()
+            database.close()
+            return{
+                "message" : "해당 유저가 존재하지 않음"
+            },400
+        else:
+            database.commit()
+            database.close()
+            return{
+                "message" : "아이디나 비밀번호 불일치"
+            },400
 
     def post(self):
         is_success = False
@@ -50,13 +87,6 @@ class UserManagement(Resource):
         
 
 
-        """def post():
-        param = request.get_json()
-        name = param['name']
-        return name
-        #return jsonify(param)
-
-        """
     def put(self):        
         # PUT method 구현 부분
         Body = request.get_json()
