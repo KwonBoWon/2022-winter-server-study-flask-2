@@ -27,10 +27,11 @@ class UserManagement(Resource):
         isPw = database.execute_one("SELECT EXISTS(SELECT * FROM user WHERE pw = '{}')as success".format(getPw) )
         boolPw = isPw['success']
         
-        findData = database.execute_one("SELECT * FROM user WHERE id = '{}'".format(getId) )
-        nickname = findData['nickname']
+
         
         if(boolId and boolPw):
+            findData = database.execute_one("SELECT * FROM user WHERE id = '{}'".format(getId) )
+            nickname = findData['nickname']
             database.commit()
             database.close()
             return {
